@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="comments.css" rel="stylesheet">
+    <script src="comments.js"></script>
+  </head>
+  <body>
+    <style>
+      #comments {  }
+      #comments h1 { color: rgb(204, 0, 0); margin: 0px 0px 5px; }
+      .maxB { margin: 0px auto; display: inline-block; }
+      .comment { padding: 15px 0px; border-top: 1px solid rgb(232, 232, 232); }
+      .comment .text1 { font-size: 14px; font-weight: bold; }
+      .comment .text2 { font-size: 12px; float: right; color: rgb(136, 136, 136); font-weight: normal; }
+      .comment .text3 { font-size: 15px; padding: 10px 0px 0px; font-weight: normal; min-height: 75px; }
+    </style>
+    <div id="comments"><br>
+      <h1 class="lt20">Comments:</h1>
+      <div class="comment"><span class="text1 lt21"> Mark Zukerberg </span><span class="text2"></span>
+        <div class="text3"><a href=""><img alt="img" src="foto1.jpg" style="float: left; padding-right: 10px;"></a>
+          <div class="txtCom lt22">You have great comments, man🤝 I almost believed they were real!</div><br>
+        </div>
+      </div>
+      <!-- FORM START -->
+      <div id="commentPushBlock"></div>
+      <form id="commentForm" method="post" action="#" class="intlTelInput">
+        <div class="form__item">
+          <div class="file">
+            <div class="file__item">
+              <label for="formImage" class="form__avatar" id="formAvatar"></label>
+              <input id="formImage" accept=".jpg, .png, .gif" type="file" name="image" class="file__input">
+              <label for="formImage" class="file-label">Upload</label>
+            </div>
+          </div>
+        </div>
+        <div class="form__inputs">
+          <input type="text" placeholder="Your Name" id="inputCommentName" value="">
+          <textarea name="" id="inputCommentText" placeholder="Your comment goes here..." cols="20" rows="5"></textarea>
+          <button type="submit" id="commentPush">
+            Publish
+          </button>
+        </div>
+      </form>
+      <!-- FORM END -->
+    </div>
+    <!-- SETTINGS START -->
+    <script>
+      let comment = new Comment(
+              '#commentForm',
+              '#inputCommentName',
+              '#inputCommentText',
+              '#formImage',
+              '#formAvatar',
+              '#commentPushBlock'
+            )
+      Comment.prototype.pushComm = function () {
+              let urlAvatar = '';
+              this.formImageUrl ? urlAvatar = this.formImageUrl : urlAvatar = 'img/userpic.png'
+              //Ниже вводим блоки с стилями комметариев из лендинга куда добавляем комментарий(ниже пример)
+              //${this.inputCommentName.value} ------- поле где выводится имя комментатора(если оно есть)
+              //${this.inputCommentText.value} ------- поле где выводится текст комментария
+              //${new Date().toLocaleDateString()} --- сегоднящняя дата 
+              //${urlAvatar} ------- ссылка на фотку(подставится автоматически)
+              const comment = `
+                 <div class="comment">
+                 <span class="text1 lt49"> ${this.inputCommentName.value} </span>
+                 <span class="text2"></span>
+                 <div class="text3 lt50">
+                 <a href="#" onclick="document.location.hash='';return false;">
+                 <img alt="img" src="${urlAvatar}" style="float: left; padding-right: 10px;">
+                 </a>
+                 ${this.inputCommentText.value}
+                 </div>
+                 </div>
+                 `;
+              this.removeInputClass();
+              this.commArrAll.push(comment);
+              this.commentPushBlock.innerHTML = this.commArrAll.join('');
+              localStorage.setItem('commArr', JSON.stringify(this.commArrAll));
+              this.formAvatar.innerHTML = "";
+              this.formImageUrl = "";
+              urlAvatar = '';
+            };
+    </script>  
+    <!-- SETTINGS END -->
+  </body>
+</html>
