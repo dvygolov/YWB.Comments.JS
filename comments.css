@@ -127,6 +127,9 @@
     font-size: 12px;
 }
 
+.text3 img {
+  max-width: 82px;
+}
 .file {
   width: 100%;
   max-width: 90px;
